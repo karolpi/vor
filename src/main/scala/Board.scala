@@ -20,4 +20,7 @@ class Board( width: Int, height: Int, numOfPoints: Int ) extends BufferedImage( 
     val r = Random
     new Array[Point](numOfPoints).map( x => new Point( width * r.nextDouble(), height * r.nextDouble() ) )
   }
+
+
+  
 }
