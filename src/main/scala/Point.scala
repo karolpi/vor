@@ -5,15 +5,15 @@ class Point(x: Double, y: Double) extends Point2D.Double(x, y) {
   //val area: Polygon = new Polygon()
   //val
 
-  def isOnTheSameSide(line: Line, point: Point): Boolean = {
+  def isOnTheSameSide(Perpendicular: Perpendicular, point: Point): Boolean = {
 
 
 
     true
   }
 
-  def createLine(p: Point): Line = {
+  def createPerpendicular(p: Point): Perpendicular = {
     require( p != this )
-    new Line( this, p )
+    new Perpendicular( this, p )
   }
 }
