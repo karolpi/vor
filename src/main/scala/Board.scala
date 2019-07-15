@@ -7,6 +7,22 @@ class Board( width: Int, height: Int, numOfPoints: Int ) extends BufferedImage( 
 
   val g: Graphics2D = this.createGraphics()
   val mainPoints: Array[Point] = generatePoints(numOfPoints)
+  val pointLines: Map[Point, Array[Line]] = mainPoints.map({
+    point => (point, mainPoints.filter(x => {
+      x != point
+    }).map({
+      x => point.createPerpendicular(x)
+    }))
+  }).toMap
+  val pointPolygon: Map[Point, Array[Point]] = pointLines.map({
+    x => (x._1, x._2.map( line => {
+      /*
+      tutaj trzeba zmapować pojedyncze punkty na punkty z obszarami
+       */
+    }))
+  })
+
+  pointLines.foreach(x => println (x._1 + " --> " + x._2.foreach(u => println(s"\t$u"))))
 
   //fill background in white
   g.setPaint( Color.white )
