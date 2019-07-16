@@ -1,3 +1,10 @@
+
+/*
+
+  Nie działa dla linii pionowych
+
+ */
+
 class Line(p1: Point, p2: Point) {
   private val a = (p1.y - p2.y) / (p1.x - p2.x)
   private val b = -1
@@ -8,5 +15,9 @@ class Line(p1: Point, p2: Point) {
     val wx = this.b * line.c - line.b * this.c
     val wy = this.a * line.c - line.a * this.c
     new Point(wx / w, wy / w)
+  }
+
+  override def toString: String = {
+    s"${a}x + ${b}y = $c"
   }
 }
