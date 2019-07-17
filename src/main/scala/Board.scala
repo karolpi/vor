@@ -8,19 +8,29 @@ import scala.util.Random
 
 class Board( width: Int, height: Int, numOfPoints: Int ) extends BufferedImage( width, height, BufferedImage.TYPE_INT_RGB ) {
 
+  def this( width: Int, height: Int, points: Array[Point] ): Unit = {
+
+  }
+
   Board.activeBoard = this
   val g: Graphics2D = this.createGraphics()
   val mainPoints: Set[Point] = generatePoints(numOfPoints)
 
   //boundary lines
   val lines = ArrayBuffer(
-    new Line(new Point(0,0), new Point(getWidth, 0)), // down
+    //new Line(new Point(0,0), new Point(getWidth, 0)), // down
     //new Line(new Point(getWidth, 0), new Point(getWidth, getHeight)), //right - pionowa
-    new Line(new Point(getWidth, getHeight), new Point(0, getHeight)), //upper
+    //new Line(new Point(getWidth, getHeight), new Point(0, getHeight)), //upper
     //new Line(new Point(0, getHeight), new Point(0,0)) // left - pionowa
   )
 
-  mainPoints.foreach(println)
+  mainPoints.foreach(p => p.areaPoints.foreach({
+    x =>
+      println(x.x.toInt + " , " + x.y.toInt)
+      g.setPaint( new Color(Random.nextInt()) )
+      g.drawOval(p.x.toInt, p.y.toInt, 3, 3)
+
+  }))
 
   //fill background in white
   g.setPaint( Color.white )
@@ -28,7 +38,7 @@ class Board( width: Int, height: Int, numOfPoints: Int ) extends BufferedImage( 
 
   //draw points
   g.setPaint( Color.BLACK )
-  mainPoints.foreach( p => g.drawOval(p.x.toInt, p.y.toInt, 5, 5))
+  mainPoints.foreach( p => g.fillOval(p.x.toInt, p.y.toInt, 5, 5))
 
   def generatePoints(numOfPoints: Int): Set[Point] = {
     val r = Random
