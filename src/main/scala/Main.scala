@@ -5,12 +5,15 @@ import javax.imageio.ImageIO
 
 object Main {
   def main(args: Array[String]): Unit = {
+    /*
     val b: Board = new Board(600, 600, 8)
     val file: File = new File("image.png")
 
     ImageIO.write(b, "png", file)
-    val line1 = new Perpendicular(new Point(-3,-3), new Point(1,-1))
-    val line2 = new Perpendicular(new Point(0,2), new Point(1,5))
+    */
 
+    val l1 = new Line(new Point(-1,0), new Point(0,2), perpendicular = false)
+    val l2 = new Line(new Point(3,0), new Point(1,2), perpendicular = false)
+    println(s"$l1\n$l2\n${l1.findIntersection(l2)}")
   }
 }

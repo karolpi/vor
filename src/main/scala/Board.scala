@@ -1,3 +1,4 @@
+
 import java.awt.{Color, Graphics2D}
 import java.awt.image.BufferedImage
 
@@ -7,10 +8,6 @@ import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
 class Board( width: Int, height: Int, numOfPoints: Int ) extends BufferedImage( width, height, BufferedImage.TYPE_INT_RGB ) {
-
-  def this( width: Int, height: Int, points: Array[Point] ): Unit = {
-
-  }
 
   Board.activeBoard = this
   val g: Graphics2D = this.createGraphics()
@@ -24,6 +21,7 @@ class Board( width: Int, height: Int, numOfPoints: Int ) extends BufferedImage( 
     //new Line(new Point(0, getHeight), new Point(0,0)) // left - pionowa
   )
 
+  /*
   mainPoints.foreach(p => p.areaPoints.foreach({
     x =>
       println(x.x.toInt + " , " + x.y.toInt)
@@ -31,6 +29,8 @@ class Board( width: Int, height: Int, numOfPoints: Int ) extends BufferedImage( 
       g.drawOval(p.x.toInt, p.y.toInt, 3, 3)
 
   }))
+
+   */
 
   //fill background in white
   g.setPaint( Color.white )
