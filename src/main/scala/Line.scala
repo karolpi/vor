@@ -6,14 +6,19 @@
   PUKTÓW PODANYCH JAKO PARAMETRY KONSTRUKTORA
  */
 
-class Line(p1: Point, p2: Point, perpendicular: Boolean = false) {
+final class Line(p1: Point, p2: Point, perpendicular: Boolean = false) {
 
-  val (a: Double, b: Double, c: Double) = if (perpendicular) {
+
+  val (a: Double, b: Double, c: Double) =
+  //perpendicular = true
+    if (perpendicular) {
     val centerPoint: Point = new Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2)
     val a: Double = -1 / ((p2.y - p1.y) / (p2.x - p1.x))
 
     (a  ,  -1.0  ,  centerPoint.y - centerPoint.x * a)
-  } else { //normalna linia
+  }
+  //perpendicular = false
+  else {
     val a = (p1.y - p2.y) / (p1.x - p2.x)
 
     (a, -1.0, p1.y - p1.x * a)
@@ -26,6 +31,6 @@ class Line(p1: Point, p2: Point, perpendicular: Boolean = false) {
     new Point(-wx / w, wy / w)
   }
 
-  override def toString: String = f"a: $a%.3f\tb: $b%.3f\tc: $c%.3f"
+  override def toString: String = f"Line${if(perpendicular) "Perpendicular" else ""}(${p1.x}%.2f, ${p1.y}%.2f)(${p2.x}%.2f, ${p2.y}%.2f)\ta: $a%.3f\tb: $b%.3f\tc: $c%.3f"
 
 }
