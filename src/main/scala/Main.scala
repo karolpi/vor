@@ -12,8 +12,8 @@ object Main {
     ImageIO.write(b, "png", file)
     */
 
-    val l1 = new Line(new Point(-1,0), new Point(0,2), perpendicular = false)
-    val l2 = new Line(new Point(3,0), new Point(1,2), perpendicular = false)
+    val l1 = new Line(new Point(1,3), new Point(3,0), perpendicular = false)
+    val l2 = new Line(new Point(6,1), new Point(-1,-2), perpendicular = false)
     println(s"$l1\n$l2\n${l1.findIntersection(l2)}")
   }
 }
