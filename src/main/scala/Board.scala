@@ -13,6 +13,7 @@ class Board( width: Int, height: Int, numOfPoints: Int ) extends BufferedImage( 
   val g: Graphics2D = this.createGraphics()
   val mainPoints: Set[Point] = generatePoints(numOfPoints)
 
+
   //boundary lines
   val lines = ArrayBuffer(
     new Line(new Point(0,0), new Point(getWidth, 0)), // down
@@ -21,7 +22,8 @@ class Board( width: Int, height: Int, numOfPoints: Int ) extends BufferedImage( 
     //new Line(new Point(0, getHeight), new Point(0,0)) // left - pionowa
   )
 
-  mainPoints.foreach(p => println(f"Point[${p.x}%.1f, ${p.y}%.1f]\n\t" + p.areaPoints))
+
+  mainPoints.foreach(p => println(f"Point[${p.getX}%.1f, ${p.getY}%.1f]\n\t" + p.areaPoints))
 
   //fill background in white
   g.setPaint( Color.white )
@@ -29,11 +31,11 @@ class Board( width: Int, height: Int, numOfPoints: Int ) extends BufferedImage( 
 
   //draw points
   g.setPaint( Color.BLACK )
-  mainPoints.foreach( p => g.fillOval(p.x.toInt, p.y.toInt, 8, 8))
+  mainPoints.foreach( p => g.fillOval(p.getX.toInt, p.getY.toInt, 8, 8))
 
   mainPoints.foreach(p => {
     g.setPaint( new Color(Random.nextInt()) )
-    //p.areaPoints.filter(f => f.lines.forall(l => f.areOnTheSameSite(p, l))).foreach(f => g.fillOval(f.x.toInt, if(f.y.toInt == height) f.y.toInt + 5 else f.y.toInt, 5, 5))
+    p.areaPoints
   })
 
   def generatePoints(numOfPoints: Int): Set[Point] = {

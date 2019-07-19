@@ -13,7 +13,7 @@ class Point(x: Double, y: Double)(implicit board: Board) extends Point2D.Double(
     .concat(board.lines)
 
 
-  lazy val areaPoints: Set[Point] =
+  lazy val areaPoints: Set[Point2D.Double] =
     lines.flatMap(line => lines.filter(_ != line).map(line.findIntersection))
 
   def createPerpendicular(p: Point): Line = {
