@@ -17,13 +17,12 @@ class Board( width: Int, height: Int, numOfPoints: Int ) extends BufferedImage( 
   //boundary lines
   val lines = ArrayBuffer(
     new Line(new Point(0,0), new Point(getWidth, 0)), // down
-    //new Line(new Point(getWidth, 0), new Point(getWidth, getHeight)), //right - pionowa
+    new Line(new Point(getWidth, 0), new Point(getWidth, getHeight)), //right - pionowa
     new Line(new Point(getWidth, getHeight), new Point(0, getHeight)), //upper
-    //new Line(new Point(0, getHeight), new Point(0,0)) // left - pionowa
+    new Line(new Point(0, getHeight), new Point(0,0)) // left - pionowa
   )
 
-
-  mainPoints.foreach(p => println(f"Point[${p.getX}%.1f, ${p.getY}%.1f]\n\t" + p.areaPoints))
+  lines.foreach(println)
 
   //fill background in white
   g.setPaint( Color.white )
@@ -34,8 +33,7 @@ class Board( width: Int, height: Int, numOfPoints: Int ) extends BufferedImage( 
   mainPoints.foreach( p => g.fillOval(p.getX.toInt, p.getY.toInt, 8, 8))
 
   mainPoints.foreach(p => {
-    g.setPaint( new Color(Random.nextInt()) )
-    p.areaPoints
+    println(p.areaPoints.size)
   })
 
   def generatePoints(numOfPoints: Int): Set[Point] = {

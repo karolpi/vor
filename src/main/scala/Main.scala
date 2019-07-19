@@ -10,5 +10,11 @@ object Main {
     val file: File = new File("image.png")
 
     ImageIO.write(b, "png", file)
+
+    val l1 = new Line(new Point(0,0), new Point(400, 0)) // down
+    val l2 = new Line(new Point(600, 0), new Point(600, 600)) //right - pionowa
+    println(l1)
+    println(l2)
+    println(l2.findIntersection(l1))
   }
 }

@@ -1,27 +1,27 @@
 import java.awt.Polygon
 import java.awt.geom.Point2D
 
-import scala.collection.mutable.ArrayBuffer
-
-class Point(x: Double, y: Double)(implicit board: Board) extends Point2D.Double(x, y) {
-
+class Point(x: Double, y: Double)(implicit board: Board) extends java.awt.geom.Point2D.Double(x, y) {
+  
   //lazy because there must be initialized all points first
   lazy val lines: Set[Line] =
     board.mainPoints
-    .filter(_ != this)
-    .map(this.createPerpendicular)
-    .concat(board.lines)
+      .filter(_ != this)
+      .map(this.createPerpendicular)
+      .concat(board.lines)
 
 
-  lazy val areaPoints: Set[Point2D.Double] =
-    lines.flatMap(line => lines.filter(_ != line).map(line.findIntersection))
+  lazy val areaPoints: Set[Point2D] =
+    lines.flatMap(line => lines.filter(l => !l.eq(line)).map(line.findIntersection)).filter(p => p.getX >= 0 && p.getX <= board.getWidth && p.getY >= 0 && p.getY <= board.getHeight)
 
   def createPerpendicular(p: Point): Line = {
     new Line( p1 = this, p2 = p, perpendicular = true )
   }
+}
 
-  def areOnTheSameSite(p: Point, l: Line): Boolean = {
+object Point {
+  def areOnTheSameSide(p1: Point2D, p2: Point2D, l: Line): Boolean = {
     val (a, b, c) = (l.a, l.b, l.c)
-    (a * this.x + b * this.y + c) * (a * p.x + b * p.y + c) >= 0
+    (a * p1.getX + b * p1.getY + c) * (a * p2.getX + b * p2.getY + c) >= 0
   }
 }
