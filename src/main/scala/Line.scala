@@ -24,12 +24,30 @@ class Line(p1: Point, p2: Point, perpendicular: Boolean = false) {
     (a, -1.0, p1.getY - p1.getX * a)
   }
 
-  def findIntersection(line: Line): Point2D = {
-      val w = this.a * line.b - line.a * this.b
-      val wx = this.b * -line.c - line.b * -this.c
-      val wy = this.a * -line.c - line.a * -this.c
-      new java.awt.geom.Point2D.Double(-wx / w, wy / w)
+  def getP1: Point2D = p1
+  def getP2: Point2D = p2
+
+  def findIntersection(line: Line): Option[Point2D] = {
+      Line.intersection(line, this)
   }
 
   override def toString: String = f"Line${if(perpendicular) "Perpendicular" else ""}(${p1.getX}%.2f, ${p1.getY}%.2f)(${p2.getX}%.2f, ${p2.getY}%.2f)\ta: $a%.3f\tb: $b%.3f\tc: $c%.3f"
+}
+
+object Line {
+  def intersection(line1: Line, line2: Line): Option[Point2D] = {
+    if(line1.a == line2.a) None
+    if(!line1.a.isInfinity && !line2.a.isInfinity) {
+      val w = line1.a * line2.b - line2.a * line1.b
+      val wx = line1.b * -line2.c - line2.b * -line1.c
+      val wy = line1.a * -line2.c - line2.a * -line1.c
+      Some(new java.awt.geom.Point2D.Double(-wx / w, wy / w))
+    } else {
+      if(line1.a.isInfinity) {
+        Some(new java.awt.geom.Point2D.Double(line1.getP1.getX, line1.getP1.getX * line2.a + line2.c))
+      } else {
+        Some(new java.awt.geom.Point2D.Double(line2.getP1.getX, line2.getP1.getX * line1.a + line1.c))
+      }
+    }
+  }
 }
