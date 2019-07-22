@@ -1,6 +1,8 @@
 import java.awt.Polygon
 import java.awt.geom.Point2D
 
+import scala.collection.immutable.HashSet
+
 class Point(x: Double, y: Double)(implicit board: Board) extends java.awt.geom.Point2D.Double(x, y) {
   
   //lazy because there must be initialized all points first
@@ -14,12 +16,23 @@ class Point(x: Double, y: Double)(implicit board: Board) extends java.awt.geom.P
   TWORZY WSZYSTKIE MOŻLIWE PUNKTY POŁACZEŃ I FILTRUJE TE,
   + KTÓRE SĄ POZA PLANSZĄ
   */
-  lazy val areaPoints: Set[Point2D] =
+  lazy val potentialAreaPoints: Set[Point2D] =
     lines.flatMap(line => {
       lines.filter(!line.eq(_))
-        .flatMap(line findIntersection _)
-        .filter(p => p.getX >= 0 && p.getX <= board.getWidth && p.getY >= 0 && p.getY <= board.getHeight)
+        .flatMap(line findIntersection _) //filtr Some
+        .concat(HashSet(new Point(0,0), new Point(0, board.getHeight()), new Point(board.getWidth(), 0),
+          new Point(board.getWidth(), board.getHeight())))
+        .filter(p => p.getX >= 0 && p.getX <= board.getWidth && p.getY >= 0 && p.getY <= board.getHeight) //odrzuca poza granicami
     })
+
+  lazy val areaPoints: Set[Point2D] = potentialAreaPoints
+      .filter(p => {
+        println(this)
+        lines.forall(l => {
+          println(s"$l areOnTheSameSide${Point.areOnTheSameSide(this, p, l)}")
+          Point.areOnTheSameSide(this, p, l)
+        })
+      })
 
   def createPerpendicular(p: Point): Line = {
     new Line( p1 = this, p2 = p, perpendicular = true )
@@ -27,8 +40,20 @@ class Point(x: Double, y: Double)(implicit board: Board) extends java.awt.geom.P
 }
 
 object Point {
+
+  /*
+  MOGĄ POJAWIĆ SIĘ PROBLEMY WYNIKAJĄCE Z BŁĘDU ZAOKRĄGLANIA LICZB DOUBLE
+
+
+  nie zawsze działa, przepuszcza chujowe punkty
+   */
+
   def areOnTheSameSide(p1: Point2D, p2: Point2D, l: Line): Boolean = {
-    val (a, b, c) = (l.a, l.b, l.c)
-    (a * p1.getX + b * p1.getY + c) * (a * p2.getX + b * p2.getY + c) >= 0
+    if(l.a.isInfinity) {
+      if(!(p1.getX >= l.getP1.getX ^ p2.getX >= l.getP1.getX) || !(p1.getX <= l.getP1.getX ^ p2.getX <= l.getP1.getX)) true else false
+    } else {
+      if(!(l.a * p1.getX + l.b * p1.getY + l.c >= 0 ^ l.a * p2.getX + l.b * p2.getY + l.c >= 0) ||
+        !(l.a * p1.getX + l.b * p1.getY + l.c <= 0 ^ l.a * p2.getX + l.b * p2.getY + l.c <= 0)) true else false
+    }
   }
 }
