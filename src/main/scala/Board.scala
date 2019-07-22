@@ -32,8 +32,9 @@ class Board( width: Int, height: Int, numOfPoints: Int ) extends BufferedImage( 
   g.setPaint( Color.BLACK )
   mainPoints.foreach( p => g.fillOval(p.getX.toInt, p.getY.toInt, 8, 8))
 
-  mainPoints.foreach(p => {
-    println(p.areaPoints.size)
+  mainPoints.foreach(point => {
+    g.setPaint( new Color(Random.nextInt()) )
+    point.areaPoints.foreach(p => g.fillOval(if(p.getX == width) p.getY.toInt - 5 else p.getX.toInt, if(p.getY = height) p.getY.toInt - 5 else p.getY.toInt, 5, 5))
   })
 
   def generatePoints(numOfPoints: Int): Set[Point] = {

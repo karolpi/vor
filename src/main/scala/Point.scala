@@ -10,9 +10,16 @@ class Point(x: Double, y: Double)(implicit board: Board) extends java.awt.geom.P
       .map(this.createPerpendicular)
       .concat(board.lines)
 
-
+  /*
+  TWORZY WSZYSTKIE MOŻLIWE PUNKTY POŁACZEŃ I FILTRUJE TE,
+  + KTÓRE SĄ POZA PLANSZĄ
+  */
   lazy val areaPoints: Set[Point2D] =
-    lines.flatMap(line => lines.filter(l => !l.eq(line)).map(line.findIntersection)).filter(p => p.getX >= 0 && p.getX <= board.getWidth && p.getY >= 0 && p.getY <= board.getHeight)
+    lines.flatMap(line => {
+      lines.filter(!line.eq(_))
+        .flatMap(line findIntersection _)
+        .filter(p => p.getX >= 0 && p.getX <= board.getWidth && p.getY >= 0 && p.getY <= board.getHeight)
+    })
 
   def createPerpendicular(p: Point): Line = {
     new Line( p1 = this, p2 = p, perpendicular = true )
