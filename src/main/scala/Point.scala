@@ -52,8 +52,8 @@ object Point {
     if(l.a.isInfinity) {
       if(!(p1.getX >= l.getP1.getX ^ p2.getX >= l.getP1.getX) || !(p1.getX <= l.getP1.getX ^ p2.getX <= l.getP1.getX)) true else false
     } else {
-      if(!(l.a * p1.getX + l.b * p1.getY + l.c >= 0 ^ l.a * p2.getX + l.b * p2.getY + l.c >= 0) ||
-        !(l.a * p1.getX + l.b * p1.getY + l.c <= 0 ^ l.a * p2.getX + l.b * p2.getY + l.c <= 0)) true else false
+      if(!((l.a * p1.getX + l.b * p1.getY + l.c).toInt >= 0 ^ (l.a * p2.getX + l.b * p2.getY + l.c).toInt >= 0) ||
+        !((l.a * p1.getX + l.b * p1.getY + l.c).toInt <= 0 ^ (l.a * p2.getX + l.b * p2.getY + l.c).toInt <= 0)) true else false
     }
   }
 }
