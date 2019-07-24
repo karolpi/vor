@@ -22,8 +22,6 @@ class Board( width: Int, height: Int, numOfPoints: Int ) extends BufferedImage( 
     new Line(new Point(0, getHeight), new Point(0,0)) // left - pionowa
   )
 
-  lines.foreach(println)
-
   //fill background in white
   g.setPaint( Color.white )
   g.fillRect( 0, 0, width, height )
@@ -36,8 +34,10 @@ class Board( width: Int, height: Int, numOfPoints: Int ) extends BufferedImage( 
   mainPoints.foreach(point => {
     g.setPaint( new Color(Random.nextInt()) )
     g.fillOval(point.getX.toInt, point.getY.toInt, 8, 8)
-    point.areaPoints.foreach(p => {
+    println("\t" + point)
+    point.sortedAreaPoints.foreach(p => {
       g.fillOval(if(p.getX == width) p.getX.toInt - 5 else p.getX.toInt, if(p.getY == height) p.getY.toInt - 5 else p.getY.toInt, 5, 5)
+      println(p)
     })
   })
 

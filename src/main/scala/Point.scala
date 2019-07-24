@@ -1,7 +1,7 @@
 import java.awt.Polygon
 import java.awt.geom.Point2D
 
-import scala.collection.immutable.HashSet
+import scala.collection.immutable.{HashSet, TreeSet}
 
 class Point(x: Double, y: Double)(implicit board: Board) extends java.awt.geom.Point2D.Double(x, y) {
   
@@ -27,12 +27,16 @@ class Point(x: Double, y: Double)(implicit board: Board) extends java.awt.geom.P
 
   lazy val areaPoints: Set[Point2D] = potentialAreaPoints
       .filter(p => {
-        println(this)
         lines.forall(l => {
-          println(s"$l areOnTheSameSide${Point.areOnTheSameSide(this, p, l)}")
           Point.areOnTheSameSide(this, p, l)
         })
       })
+
+  lazy val sortedAreaPoints: TreeSet[Point2D] = TreeSet()((p1: Point2D, p2: Point2D) => {
+    if (math.atan2(p1.getY - this.getY, p1.getX - this.getX) > math.atan2(p1.getY - this.getY, p1.getX - this.getX)) 1
+    else -1
+  }) ++ areaPoints
+
 
   def createPerpendicular(p: Point): Line = {
     new Line( p1 = this, p2 = p, perpendicular = true )
@@ -40,14 +44,6 @@ class Point(x: Double, y: Double)(implicit board: Board) extends java.awt.geom.P
 }
 
 object Point {
-
-  /*
-  MOGĄ POJAWIĆ SIĘ PROBLEMY WYNIKAJĄCE Z BŁĘDU ZAOKRĄGLANIA LICZB DOUBLE
-
-
-  nie zawsze działa, przepuszcza chujowe punkty
-   */
-
   def areOnTheSameSide(p1: Point2D, p2: Point2D, l: Line): Boolean = {
     if(l.a.isInfinity) {
       if(!(p1.getX >= l.getP1.getX ^ p2.getX >= l.getP1.getX) || !(p1.getX <= l.getP1.getX ^ p2.getX <= l.getP1.getX)) true else false
