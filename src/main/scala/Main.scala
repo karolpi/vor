@@ -9,7 +9,7 @@ object Main {
     println("Generating...")
     val startNanos = System.currentTimeMillis()
 
-    val b: Board = new Board(600, 600, 4)
+    val b: Board = new Board(600, 600, 200)
     val file: File = new File("image.png")
 
     ImageIO.write(b, "png", file)

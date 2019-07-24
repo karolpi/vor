@@ -31,14 +31,12 @@ class Board( width: Int, height: Int, numOfPoints: Int ) extends BufferedImage( 
   mainPoints.foreach( p => g.fillOval(p.getX.toInt, p.getY.toInt, 8, 8))
 
   //draw area of all points
+  var pointInRow = 0
   mainPoints.foreach(point => {
     g.setPaint( new Color(Random.nextInt()) )
-    g.fillOval(point.getX.toInt, point.getY.toInt, 8, 8)
-    println("\t" + point)
-    point.sortedAreaPoints.foreach(p => {
-      g.fillOval(if(p.getX == width) p.getX.toInt - 5 else p.getX.toInt, if(p.getY == height) p.getY.toInt - 5 else p.getY.toInt, 5, 5)
-      println(p)
-    })
+    g.fill(point.areaPolygon)
+    pointInRow += 1
+    print(f"${pointInRow.toDouble / numOfPoints * 100}%.0f%%\r")
   })
 
 

@@ -14,7 +14,7 @@ class Point(x: Double, y: Double)(implicit board: Board) extends java.awt.geom.P
 
   /*
   TWORZY WSZYSTKIE MOŻLIWE PUNKTY POŁACZEŃ I FILTRUJE TE,
-  + KTÓRE SĄ POZA PLANSZĄ
+  KTÓRE SĄ POZA PLANSZĄ
   */
   lazy val potentialAreaPoints: Set[Point2D] =
     lines.flatMap(line => {
@@ -32,10 +32,11 @@ class Point(x: Double, y: Double)(implicit board: Board) extends java.awt.geom.P
         })
       })
 
-  lazy val sortedAreaPoints: TreeSet[Point2D] = TreeSet()((p1: Point2D, p2: Point2D) => {
-    if (math.atan2(p1.getY - this.getY, p1.getX - this.getX) > math.atan2(p1.getY - this.getY, p1.getX - this.getX)) 1
-    else -1
-  }) ++ areaPoints
+  lazy val sortedAreaPoints: Array[Point2D] = areaPoints.toArray.sortBy(p => math.atan2(p.getY - this.getY, p.getX - this.getX))
+
+  lazy val areaPolygon: Polygon =
+    new Polygon(sortedAreaPoints.map(_.getX.toInt), sortedAreaPoints.map(_.getY.toInt), sortedAreaPoints.size)
+
 
 
   def createPerpendicular(p: Point): Line = {
