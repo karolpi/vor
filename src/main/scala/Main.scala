@@ -15,12 +15,12 @@ object Main {
     println("Generating...")
     val startNanos = System.currentTimeMillis()
 
-    val b: Board = new Board(900, 900, 200, None)
+    val b: Board = new Board(width, height, 900, Some(startImage))
     val file: File = new File("image.png")
 
     ImageIO.write(b, "png", file)
 
     val endNanos = System.currentTimeMillis()
-    println("generated in time: " + (endNanos - startNanos) / 1000 + "s, " + (endNanos - startNanos) % 1000 + "ms")
+    println("generated in time: "+ (endNanos - startNanos) / 60000 + "m, " +(endNanos - startNanos) % 60000 / 1000 + "s, " + (endNanos - startNanos) % 60000 % 1000 + "ms")
   }
 }
